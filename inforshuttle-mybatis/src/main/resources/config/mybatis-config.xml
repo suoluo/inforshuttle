@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置别名 -->
+	<typeAliases>
+		<typeAlias type="com.inforshuttle.mybatis.dao.UserDao" alias="UserDao" />
+		<typeAlias type="com.inforshuttle.mybatis.dto.UserDto" alias="UserDto" />
+		<typeAlias type="com.inforshuttle.mybatis.dao.OrderDao" alias="OrderDao" />
+		<typeAlias type="com.inforshuttle.mybatis.dto.OrderDto" alias="OrderDto" />
+		<typeAlias type="com.inforshuttle.mybatis.dto.ClassesDto" alias="ClassesDto" />
+		<typeAlias type="com.inforshuttle.mybatis.dto.TeacherDto" alias="TeacherDto" />
+		<typeAlias type="com.inforshuttle.mybatis.dto.StudentDto" alias="StudentDto" />
+	</typeAliases>
+
+	<!-- 配置环境变量 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/lanyuan?useUnicode=true&amp;characterEncoding=utf8" />
+				<property name="username" value="root" />
+				<property name="password" value="123456" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 配置mappers -->
+	<mappers>
+		<mapper resource="com/inforshuttle/mybatis/dao/UserDao.xml" />
+		<mapper resource="com/inforshuttle/mybatis/dao/OrderDao.xml" />
+		<mapper resource="com/inforshuttle/mybatis/dao/ClassesDao.xml" />
+        <mapper class="com.inforshuttle.mybatis.dao.UserMapperI"/>
+	</mappers>
+
+</configuration>   

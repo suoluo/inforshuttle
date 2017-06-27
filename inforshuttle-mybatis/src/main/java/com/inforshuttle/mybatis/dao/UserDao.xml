@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inforshuttle.mybatis.dao.UserDao">
+	<!-- 开启二级缓存:回收策略为先进先出,自动刷新时间60s,最多缓存512个引用对象,只读 -->
+	<!-- <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/> -->
+	<!--mybatis ehcache缓存配置 -->
+    <!-- 
+           以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache" /> 
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> 
+    -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<!-- 同ehcache参数maxElementsInMemory -->
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<!-- 同ehcache参数maxElementsOnDisk -->
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache>
+    
+	<select id="getUsers" parameterType="UserDto" resultType="UserDto"
+		useCache="false">
+	    <![CDATA[
+		select * from t_user t where t.username = #{username}
+		]]>
+	</select>
+	<!-- 根据userid查询得到一个User对象 -->
+	<select id="getUser" parameterType="int" resultType="UserDto">
+		select * from t_user where userid=#{userid}
+	</select>
+	<!-- 创建用户(Create) -->
+	<insert id="addUser" parameterType="UserDto">
+		insert into t_user(userid,username,password,address,createtime) values(#{userid},#{username},#{password},#{address},#{createtime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<!-- 删除用户(Remove) -->
+	<delete id="deleteUser" parameterType="int">
+		delete from t_user where userid=#{userid}
+	</delete>
+
+	<!-- 修改用户(Update) -->
+	<update id="updateUser" parameterType="UserDto">
+		update t_user set username=#{username},password=#{password},address=#{address} where userid=#{userid}
+	</update>
+
+	<!-- 查询全部用户 -->
+	<select id="getAllUsers" resultType="UserDto">
+		select * from t_user
+	</select>
+	
+	<!-- 
+	查询得到男性或女性的数量, 如果传入的是0就女性否则是男性
+     -->
+	<select id="getUserCount" parameterMap="getUserCountMap" statementType="CALLABLE">
+        CALL lanyuan.ges_user_count(?,?)
+    </select>
+    
+    <!--
+        parameterMap.put("sexid", 0);
+        parameterMap.put("usercount", -1);
+     -->
+    <parameterMap type="java.util.Map" id="getUserCountMap">
+        <parameter property="sexid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="usercount" mode="OUT" jdbcType="INTEGER"/>
+    </parameterMap>
+</mapper>

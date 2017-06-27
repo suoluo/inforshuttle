@@ -1,7 +1,6 @@
 package com.inforshuttle.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.logging.log4j.core.config.Order;
 import org.junit.Test;
 
 import com.inforshuttle.mybatis.dto.OrderDto;

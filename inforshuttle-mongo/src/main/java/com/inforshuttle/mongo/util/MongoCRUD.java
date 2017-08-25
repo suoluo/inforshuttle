@@ -19,7 +19,7 @@ import com.mongodb.client.model.Filters;
 /**
  * java mongodb的数据插入、读取、更新、删除
  */
-public class MongodbCRUD {
+public class MongoCRUD {
 	private static MongoClient client = null;
 	private static MongoDatabase db = null;
 	private static final String COLLECTION_NAME = "infor";

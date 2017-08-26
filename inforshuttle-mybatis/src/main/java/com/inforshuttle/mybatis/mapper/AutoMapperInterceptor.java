@@ -83,7 +83,7 @@ public class AutoMapperInterceptor implements Interceptor {
         }
         // 调用原始statementHandler的prepare方法完成原本的逻辑
         statementHandler = (StatementHandler) metaStatementHandler.getOriginalObject();
-        statementHandler.prepare((Connection) invocation.getArgs()[0]);
+        statementHandler.prepare((Connection) invocation.getArgs()[0],10000);
         // 传递给下一个拦截器处理
         return invocation.proceed();
     }

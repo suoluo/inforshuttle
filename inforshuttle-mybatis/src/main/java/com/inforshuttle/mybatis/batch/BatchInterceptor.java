@@ -94,7 +94,7 @@ public class BatchInterceptor implements Interceptor {
                 RowBounds.DEFAULT, null, null);
 
         Connection connection = getConnection((Transaction) metaExecutor.getValue("transaction"), ms.getStatementLog());
-        Statement stmt = handler.prepare(connection);
+        Statement stmt = handler.prepare(connection,5000);
         BoundSql boundSql = handler.getBoundSql();
         String sql = boundSql.getSql();
 
